@@ -36,6 +36,14 @@ open class CommandBuilder<E : ExecuteEvent>(
     }
 
     @CommandBuilder
+    protected fun AbstractArg<*>.long(
+        name: String,
+        block: BuilderBlock<Long>
+    ) {
+        arg(LongArg(name), block)
+    }
+
+    @CommandBuilder
     protected fun AbstractArg<*>.int(
         name: String,
         block: BuilderBlock<Int>
