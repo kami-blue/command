@@ -7,7 +7,7 @@ open class ExecuteEvent(
 
     private val mappedArgs = HashMap<ArgIdentifier<*>, Any>()
 
-    fun mapArgs(argTree: List<AbstractArg<*>>) {
+    suspend fun mapArgs(argTree: List<AbstractArg<*>>) {
         for ((index, arg) in argTree.withIndex()) {
             if (arg is GreedyStringArg) {
                 arg.convertToType(args.slice(index until args.size).joinToString(" "))?.let {
