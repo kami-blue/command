@@ -1,4 +1,6 @@
-package org.kamiblue.command
+package org.kamiblue.command.utils
+
+import org.kamiblue.command.Command
 
 class CommandNotFoundException(string: String?) :
     Exception("No command found for: $string")

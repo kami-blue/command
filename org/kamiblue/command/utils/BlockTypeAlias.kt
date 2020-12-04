@@ -1,4 +1,7 @@
-package org.kamiblue.command
+package org.kamiblue.command.utils
+
+import org.kamiblue.command.AbstractArg
+import org.kamiblue.command.ArgIdentifier
 
 typealias ExecuteBlock<E> = suspend E.() -> Unit
 

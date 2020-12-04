@@ -1,5 +1,7 @@
 package org.kamiblue.command
 
+import org.kamiblue.command.utils.Invokable
+import org.kamiblue.command.utils.SubCommandNotFoundException
 import org.kamiblue.commons.interfaces.Alias
 import org.kamiblue.commons.interfaces.Nameable
 

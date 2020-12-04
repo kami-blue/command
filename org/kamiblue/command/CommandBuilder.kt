@@ -1,5 +1,8 @@
 package org.kamiblue.command
 
+import org.kamiblue.command.utils.BuilderBlock
+import org.kamiblue.command.utils.ExecuteBlock
+
 @Suppress("UNUSED")
 open class CommandBuilder<E : ExecuteEvent>(
     name: String,

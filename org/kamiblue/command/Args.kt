@@ -1,5 +1,7 @@
 package org.kamiblue.command
 
+import org.kamiblue.command.utils.ExecuteBlock
+import org.kamiblue.command.utils.Invokable
 import org.kamiblue.commons.interfaces.Alias
 import org.kamiblue.commons.interfaces.Nameable
 
