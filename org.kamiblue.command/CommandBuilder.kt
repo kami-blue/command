@@ -10,6 +10,16 @@ open class CommandBuilder<E : ExecuteEvent>(
     protected val finalArgs = ArrayList<FinalArg<E>>()
 
     @CommandBuilder
+    protected fun AbstractArg<*>.execute(
+        description: String = "",
+        block: ExecuteBlock<E>
+    ) {
+        val arg = FinalArg(description, block)
+        this.append(arg)
+        finalArgs.add(arg)
+    }
+
+    @CommandBuilder
     protected inline fun <reified E : Enum<E>> AbstractArg<*>.enum(
         name: String,
         block: EnumArg<E>.(ArgIdentifier<E>) -> Unit
@@ -88,16 +98,6 @@ open class CommandBuilder<E : ExecuteEvent>(
         val arg = GreedyStringArg(name)
         this.append(arg)
         arg.block(arg.identifier)
-    }
-
-    @CommandBuilder
-    protected fun AbstractArg<*>.execute(
-        description: String = "",
-        block: suspend E.() -> Unit
-    ) {
-        val arg = FinalArg(description, block)
-        this.append(arg)
-        finalArgs.add(arg)
     }
 
     @DslMarker

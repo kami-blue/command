@@ -31,7 +31,7 @@ abstract class AbstractArg<T : Any> : Nameable {
 
 class FinalArg<E : ExecuteEvent>(
     private val description: String,
-    private val block: suspend (E) -> Unit
+    private val block: ExecuteBlock<E>
 ) : AbstractArg<Unit>(), Invokable<E> {
 
     override val name: String
