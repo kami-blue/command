@@ -3,14 +3,22 @@ package org.kamiblue.command
 import org.kamiblue.command.utils.CommandNotFoundException
 import org.kamiblue.commons.collections.AliasSet
 
-abstract class AbstractCommandManager<T : ExecuteEvent> {
+/**
+ * Manager for [Command] registration and execution
+ *
+ * @param E Type of [ExecuteEvent], can be itself or its subtype
+ */
+abstract class AbstractCommandManager<E : ExecuteEvent> {
 
-    private val commands = AliasSet<Command<T>>()
+    /**
+     * Registered [Command] for this [AbstractCommandManager]
+     */
+    private val commands = AliasSet<Command<E>>()
 
     /**
      * Build [CommandBuilder] in [builders] and register them to this [AbstractCommandManager]
      */
-    fun registerAll(builders: Iterable<CommandBuilder<T>>) {
+    fun registerAll(builders: Iterable<CommandBuilder<E>>) {
         builders.forEach { register(it) }
     }
 
@@ -19,7 +27,7 @@ abstract class AbstractCommandManager<T : ExecuteEvent> {
      *
      * @return The built [Command]
      */
-    fun register(builder: CommandBuilder<T>): Command<T> {
+    fun register(builder: CommandBuilder<E>): Command<E> {
         return builder.buildCommand().also {
             commands.add(it)
         }
@@ -50,7 +58,7 @@ abstract class AbstractCommandManager<T : ExecuteEvent> {
      * @throws IllegalArgumentException If [event]'s argument is empty
      * @throws CommandNotFoundException If no command found
      */
-    open suspend fun invoke(event: T) {
+    open suspend fun invoke(event: E) {
         val name = event.args.getOrNull(0) ?: throw IllegalArgumentException("Arguments can not be empty!")
         getCommand(name).invoke(event)
     }
@@ -77,6 +85,9 @@ abstract class AbstractCommandManager<T : ExecuteEvent> {
     }
 
     private companion object {
+        /**
+         * Used by [parseArguments] to split the [String] into array of argument [String]
+         */
         val splitRegex = " (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()
     }
 

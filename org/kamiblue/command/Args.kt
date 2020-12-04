@@ -5,16 +5,43 @@ import org.kamiblue.command.utils.Invokable
 import org.kamiblue.commons.interfaces.Alias
 import org.kamiblue.commons.interfaces.Nameable
 
+/**
+ * Base of an Argument type, extends this to make new argument type
+ *
+ * @param T type of this argument
+ */
 abstract class AbstractArg<T : Any> : Nameable {
 
-    private val typeName = javaClass.simpleName.removeSuffix("Arg")
+    /**
+     * Type name of this argument type, used by [toString]
+     */
+    protected open val typeName = javaClass.simpleName.removeSuffix("Arg")
+
+    /**
+     * Argument tree for building up the arguments
+     */
     protected val argTree = ArrayList<AbstractArg<*>>()
+
+    /**
+     * ID of this argument
+     */
     val identifier by lazy { ArgIdentifier<T>(name) }
 
+    /**
+     * Check if [string] matches with this argument
+     */
     internal suspend fun checkType(string: String?) = convertToType(string) != null
 
+    /**
+     * Convert [string] to the the argument type [T]
+     */
     internal abstract suspend fun convertToType(string: String?): T?
 
+    /**
+     * Appends a new [AbstractArg], copy the [argTree]
+     *
+     * @param arg [AbstractArg] to append
+     */
     fun <T : Any> append(arg: AbstractArg<T>): AbstractArg<T> {
         if (this is FinalArg<*>) {
             throw IllegalArgumentException("${this.javaClass.simpleName} can't be appended")
@@ -25,12 +52,21 @@ abstract class AbstractArg<T : Any> : Nameable {
         return arg
     }
 
+    /**
+     * Used for printing argument help
+     */
     override fun toString(): String {
         return "<$name:${typeName}>"
     }
 
 }
 
+/**
+ * An argument that take no input and has a [ExecuteBlock]
+ *
+ * @param description Description for this argument combination
+ * @param block [ExecuteBlock] to run on invoking
+ */
 class FinalArg<E : ExecuteEvent>(
     private val description: String,
     private val block: ExecuteBlock<E>
@@ -44,6 +80,11 @@ class FinalArg<E : ExecuteEvent>(
         else null
     }
 
+    /**
+     * Check if [argsIn] matches with all arguments in [argTree]
+     *
+     * @return True if all matched
+     */
     suspend fun checkArgs(argsIn: Array<String>): Boolean {
         val lastArgType = argTree.last()
 
@@ -68,6 +109,9 @@ class FinalArg<E : ExecuteEvent>(
         return success
     }
 
+    /**
+     * Maps arguments in the [event] and invoke the [block]
+     */
     override suspend fun invoke(event: E) {
         event.mapArgs(argTree)
         block.invoke(event)
@@ -83,6 +127,11 @@ class FinalArg<E : ExecuteEvent>(
 
 }
 
+/**
+ * Argument that takes a [Boolean] as input
+ *
+ * @param name Name of this argument
+ */
 class BooleanArg(
     override val name: String
 ) : AbstractArg<Boolean>() {
@@ -101,6 +150,13 @@ class BooleanArg(
 
 }
 
+/**
+ * Argument that takes a [Enum] as input
+ *
+ * @param E Type of input [Enum]
+ * @param name Name of this argument
+ * @param enumClass Class of [E]
+ */
 class EnumArg<E : Enum<E>>(
     override val name: String,
     enumClass: Class<E>
@@ -114,6 +170,11 @@ class EnumArg<E : Enum<E>>(
 
 }
 
+/**
+ * Argument that takes a [Int] as input
+ *
+ * @param name Name of this argument
+ */
 class IntArg(
     override val name: String
 ) : AbstractArg<Int>() {
@@ -124,6 +185,11 @@ class IntArg(
 
 }
 
+/**
+ * Argument that takes a [Long] as input
+ *
+ * @param name Name of this argument
+ */
 class LongArg(
     override val name: String
 ) : AbstractArg<Long>() {
@@ -134,6 +200,11 @@ class LongArg(
 
 }
 
+/**
+ * Argument that takes a [Float] as input
+ *
+ * @param name Name of this argument
+ */
 class FloatArg(
     override val name: String
 ) : AbstractArg<Float>() {
@@ -144,6 +215,11 @@ class FloatArg(
 
 }
 
+/**
+ * Argument that takes a [Double] as input
+ *
+ * @param name Name of this argument
+ */
 class DoubleArg(
     override val name: String
 ) : AbstractArg<Double>() {
@@ -154,6 +230,13 @@ class DoubleArg(
 
 }
 
+/**
+ * Argument that takes a [String] as input, and must be
+ * matched with [name] or one of the [alias]
+ *
+ * @param name Name of this argument
+ * @param alias Alias of this literal argument
+ */
 open class LiteralArg(
     override val name: String,
     override val alias: Array<out String>,
@@ -173,6 +256,11 @@ open class LiteralArg(
 
 }
 
+/**
+ * Argument that takes a [String] as input
+ *
+ * @param name Name of this argument
+ */
 class StringArg(
     override val name: String
 ) : AbstractArg<String>() {
@@ -183,6 +271,11 @@ class StringArg(
 
 }
 
+/**
+ * Argument that takes all [String] after as input
+ *
+ * @param name Name of this argument
+ */
 class GreedyStringArg(
     override val name: String
 ) : AbstractArg<String>() {

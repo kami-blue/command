@@ -39,6 +39,20 @@ open class CommandBuilder<E : ExecuteEvent>(
     }
 
     /**
+     * Appends a [BooleanArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
+    @CommandBuilder
+    protected fun AbstractArg<*>.boolean(
+        name: String,
+        block: BuilderBlock<Boolean>
+    ) {
+        arg(BooleanArg(name), block)
+    }
+
+    /**
      * Appends a [EnumArg]
      *
      * @param E Type of Enum
@@ -51,20 +65,6 @@ open class CommandBuilder<E : ExecuteEvent>(
         noinline block: BuilderBlock<E>
     ) {
         arg(EnumArg(name, E::class.java), block)
-    }
-
-    /**
-     * Appends a [BooleanArg]
-     *
-     * @param name Name of this argument
-     * @param block [BuilderBlock] to appends more arguments
-     */
-    @CommandBuilder
-    protected fun AbstractArg<*>.boolean(
-        name: String,
-        block: BuilderBlock<Boolean>
-    ) {
-        arg(BooleanArg(name), block)
     }
 
     /**
@@ -127,6 +127,7 @@ open class CommandBuilder<E : ExecuteEvent>(
      * Appends a [LiteralArg]
      *
      * @param name Name of this argument
+     * @param alias Alias of this literal argument
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
