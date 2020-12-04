@@ -22,11 +22,9 @@ open class CommandBuilder<E : ExecuteEvent>(
     @CommandBuilder
     protected inline fun <reified E : Enum<E>> AbstractArg<*>.enum(
         name: String,
-        block: BuilderBlock<E>
+        noinline block: BuilderBlock<E>
     ) {
-        val arg = EnumArg(name, E::class.java)
-        this.append(arg)
-        arg.block(arg.identifier)
+        arg(EnumArg(name, E::class.java), block)
     }
 
     @CommandBuilder
@@ -34,9 +32,7 @@ open class CommandBuilder<E : ExecuteEvent>(
         name: String,
         block: BuilderBlock<Boolean>
     ) {
-        val arg = BooleanArg(name)
-        this.append(arg)
-        arg.block(arg.identifier)
+        arg(BooleanArg(name), block)
     }
 
     @CommandBuilder
@@ -44,9 +40,7 @@ open class CommandBuilder<E : ExecuteEvent>(
         name: String,
         block: BuilderBlock<Int>
     ) {
-        val builder = IntArg(name)
-        this.append(builder)
-        builder.block(builder.identifier)
+        arg(IntArg(name), block)
     }
 
     @CommandBuilder
@@ -54,9 +48,7 @@ open class CommandBuilder<E : ExecuteEvent>(
         name: String,
         block: BuilderBlock<Float>
     ) {
-        val arg = FloatArg(name)
-        this.append(arg)
-        arg.block(arg.identifier)
+        arg(FloatArg(name), block)
     }
 
     @CommandBuilder
@@ -64,9 +56,7 @@ open class CommandBuilder<E : ExecuteEvent>(
         name: String,
         block: BuilderBlock<Double>
     ) {
-        val arg = DoubleArg(name)
-        this.append(arg)
-        arg.block(arg.identifier)
+        arg(DoubleArg(name), block)
     }
 
     @CommandBuilder
@@ -85,9 +75,7 @@ open class CommandBuilder<E : ExecuteEvent>(
         name: String,
         block: BuilderBlock<String>
     ) {
-        val arg = StringArg(name)
-        this.append(arg)
-        arg.block(arg.identifier)
+        arg(StringArg(name), block)
     }
 
     @CommandBuilder
@@ -95,7 +83,14 @@ open class CommandBuilder<E : ExecuteEvent>(
         name: String,
         block: BuilderBlock<String>
     ) {
-        val arg = GreedyStringArg(name)
+        arg(GreedyStringArg(name), block)
+    }
+
+    @CommandBuilder
+    protected fun <T : Any> AbstractArg<*>.arg(
+        arg: AbstractArg<T>,
+        block: BuilderBlock<T>
+    ) {
         this.append(arg)
         arg.block(arg.identifier)
     }

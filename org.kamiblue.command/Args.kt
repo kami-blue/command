@@ -9,9 +9,9 @@ abstract class AbstractArg<T : Any> : Nameable {
     protected val argTree = ArrayList<AbstractArg<*>>()
     val identifier by lazy { ArgIdentifier<T>(name) }
 
-    internal fun checkType(string: String?) = convertToType(string) != null
+    internal suspend fun checkType(string: String?) = convertToType(string) != null
 
-    internal abstract fun convertToType(string: String?): T?
+    internal abstract suspend fun convertToType(string: String?): T?
 
     fun <T : Any> append(arg: AbstractArg<T>): AbstractArg<T> {
         if (this is FinalArg<*>) {
@@ -37,12 +37,12 @@ class FinalArg<E : ExecuteEvent>(
     override val name: String
         get() = argTree.joinToString(".")
 
-    override fun convertToType(string: String?): Unit? {
+    override suspend fun convertToType(string: String?): Unit? {
         return if (string == null) Unit
         else null
     }
 
-    fun checkArgs(argsIn: Array<String>): Boolean {
+    suspend fun checkArgs(argsIn: Array<String>): Boolean {
         val lastArgType = argTree.last()
 
         if (argsIn.size != argTree.size
@@ -85,7 +85,7 @@ class BooleanArg(
     override val name: String
 ) : AbstractArg<Boolean>() {
 
-    override fun convertToType(string: String?): Boolean? {
+    override suspend fun convertToType(string: String?): Boolean? {
         return string.toTrueOrNull() ?: string.toFalseOrNull()
     }
 
@@ -106,7 +106,7 @@ class EnumArg<E : Enum<E>>(
 
     private val enumValues = enumClass.enumConstants
 
-    override fun convertToType(string: String?): E? {
+    override suspend fun convertToType(string: String?): E? {
         return enumValues.find { it.name.equals(string, true) }
     }
 
@@ -116,7 +116,7 @@ class IntArg(
     override val name: String
 ) : AbstractArg<Int>() {
 
-    override fun convertToType(string: String?): Int? {
+    override suspend fun convertToType(string: String?): Int? {
         return string?.toIntOrNull()
     }
 
@@ -126,7 +126,7 @@ class FloatArg(
     override val name: String
 ) : AbstractArg<Float>() {
 
-    override fun convertToType(string: String?): Float? {
+    override suspend fun convertToType(string: String?): Float? {
         return string?.toFloatOrNull()
     }
 
@@ -136,7 +136,7 @@ class DoubleArg(
     override val name: String
 ) : AbstractArg<Double>() {
 
-    override fun convertToType(string: String?): Double? {
+    override suspend fun convertToType(string: String?): Double? {
         return string?.toDoubleOrNull()
     }
 
@@ -147,7 +147,7 @@ open class LiteralArg(
     override val alias: Array<out String>,
 ) : AbstractArg<String>(), Alias {
 
-    override fun convertToType(string: String?): String? {
+    override suspend fun convertToType(string: String?): String? {
         return if (string.equals(name, true) || alias.any { string.equals(it, false) }) {
             string
         } else {
@@ -165,7 +165,7 @@ class StringArg(
     override val name: String
 ) : AbstractArg<String>() {
 
-    override fun convertToType(string: String?): String? {
+    override suspend fun convertToType(string: String?): String? {
         return string
     }
 
@@ -175,7 +175,7 @@ class GreedyStringArg(
     override val name: String
 ) : AbstractArg<String>() {
 
-    override fun convertToType(string: String?): String? {
+    override suspend fun convertToType(string: String?): String? {
         return string
     }
 
