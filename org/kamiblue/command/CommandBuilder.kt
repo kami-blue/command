@@ -3,15 +3,31 @@ package org.kamiblue.command
 import org.kamiblue.command.utils.BuilderBlock
 import org.kamiblue.command.utils.ExecuteBlock
 
-@Suppress("UNUSED")
+/**
+ * Builder for [Command], extend this or subtype of this
+ * to build a command. Or extend this to add more arg types.
+ *
+ * @param E Type of [ExecuteEvent], can be itself or its subtype
+ * @param name (Optional) Name for the [Command]
+ * @param description (Optional) Description for the [Command]
+ */
 open class CommandBuilder<E : ExecuteEvent>(
     name: String,
     alias: Array<out String> = emptyArray(),
     private val description: String = "",
 ) : LiteralArg(name, alias) {
 
+    /**
+     * Final arguments to be used for building the command
+     */
     protected val finalArgs = ArrayList<FinalArg<E>>()
 
+    /**
+     * Appends a [FinalArg], adds it to [finalArgs]
+     *
+     * @param description (Optional) Description for this argument combination
+     * @param block [ExecuteBlock] to run on invoking
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.execute(
         description: String = "",
@@ -22,6 +38,13 @@ open class CommandBuilder<E : ExecuteEvent>(
         finalArgs.add(arg)
     }
 
+    /**
+     * Appends a [EnumArg]
+     *
+     * @param E Type of Enum
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected inline fun <reified E : Enum<E>> AbstractArg<*>.enum(
         name: String,
@@ -30,6 +53,12 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg(EnumArg(name, E::class.java), block)
     }
 
+    /**
+     * Appends a [BooleanArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.boolean(
         name: String,
@@ -38,6 +67,12 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg(BooleanArg(name), block)
     }
 
+    /**
+     * Appends a [LongArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.long(
         name: String,
@@ -46,6 +81,12 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg(LongArg(name), block)
     }
 
+    /**
+     * Appends a [IntArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.int(
         name: String,
@@ -54,6 +95,12 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg(IntArg(name), block)
     }
 
+    /**
+     * Appends a [FloatArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.float(
         name: String,
@@ -62,6 +109,12 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg(FloatArg(name), block)
     }
 
+    /**
+     * Appends a [DoubleArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.double(
         name: String,
@@ -70,6 +123,12 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg(DoubleArg(name), block)
     }
 
+    /**
+     * Appends a [LiteralArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.literal(
         name: String,
@@ -81,6 +140,12 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg.block()
     }
 
+    /**
+     * Appends a [StringArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.string(
         name: String,
@@ -89,6 +154,12 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg(StringArg(name), block)
     }
 
+    /**
+     * Appends a [GreedyStringArg]
+     *
+     * @param name Name of this argument
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun AbstractArg<*>.greedy(
         name: String,
@@ -97,6 +168,13 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg(GreedyStringArg(name), block)
     }
 
+    /**
+     * Appends a [AbstractArg] with type of [T]
+     *
+     * @param T The type of [arg]
+     * @param arg Argument to append
+     * @param block [BuilderBlock] to appends more arguments
+     */
     @CommandBuilder
     protected fun <T : Any> AbstractArg<*>.arg(
         arg: AbstractArg<T>,
@@ -106,9 +184,15 @@ open class CommandBuilder<E : ExecuteEvent>(
         arg.block(arg.identifier)
     }
 
+    /**
+     * Annotation to mark the builder methods
+     */
     @DslMarker
     protected annotation class CommandBuilder
 
+    /**
+     * Built this into a [Command]
+     */
     internal fun buildCommand(): Command<E> {
         return Command(name, alias, description, finalArgs.toTypedArray())
     }
