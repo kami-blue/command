@@ -22,7 +22,7 @@ open class CommandBuilder<E : ExecuteEvent>(
     @CommandBuilder
     protected inline fun <reified E : Enum<E>> AbstractArg<*>.enum(
         name: String,
-        block: EnumArg<E>.(ArgIdentifier<E>) -> Unit
+        block: BuilderBlock<E>
     ) {
         val arg = EnumArg(name, E::class.java)
         this.append(arg)
@@ -32,7 +32,7 @@ open class CommandBuilder<E : ExecuteEvent>(
     @CommandBuilder
     protected fun AbstractArg<*>.boolean(
         name: String,
-        block: BooleanArg.(ArgIdentifier<Boolean>) -> Unit
+        block: BuilderBlock<Boolean>
     ) {
         val arg = BooleanArg(name)
         this.append(arg)
@@ -42,7 +42,7 @@ open class CommandBuilder<E : ExecuteEvent>(
     @CommandBuilder
     protected fun AbstractArg<*>.int(
         name: String,
-        block: IntArg.(ArgIdentifier<Int>) -> Unit
+        block: BuilderBlock<Int>
     ) {
         val builder = IntArg(name)
         this.append(builder)
@@ -52,7 +52,7 @@ open class CommandBuilder<E : ExecuteEvent>(
     @CommandBuilder
     protected fun AbstractArg<*>.float(
         name: String,
-        block: FloatArg.(ArgIdentifier<Float>) -> Unit
+        block: BuilderBlock<Float>
     ) {
         val arg = FloatArg(name)
         this.append(arg)
@@ -62,7 +62,7 @@ open class CommandBuilder<E : ExecuteEvent>(
     @CommandBuilder
     protected fun AbstractArg<*>.double(
         name: String,
-        block: DoubleArg.(ArgIdentifier<Double>) -> Unit
+        block: BuilderBlock<Double>
     ) {
         val arg = DoubleArg(name)
         this.append(arg)
@@ -83,7 +83,7 @@ open class CommandBuilder<E : ExecuteEvent>(
     @CommandBuilder
     protected fun AbstractArg<*>.string(
         name: String,
-        block: StringArg.(ArgIdentifier<String>) -> Unit
+        block: BuilderBlock<String>
     ) {
         val arg = StringArg(name)
         this.append(arg)
@@ -93,7 +93,7 @@ open class CommandBuilder<E : ExecuteEvent>(
     @CommandBuilder
     protected fun AbstractArg<*>.greedy(
         name: String,
-        block: GreedyStringArg.(ArgIdentifier<String>) -> Unit
+        block: BuilderBlock<String>
     ) {
         val arg = GreedyStringArg(name)
         this.append(arg)
