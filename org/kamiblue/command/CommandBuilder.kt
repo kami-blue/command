@@ -14,7 +14,7 @@ import org.kamiblue.command.utils.ExecuteBlock
 open class CommandBuilder<E : ExecuteEvent>(
     name: String,
     alias: Array<out String> = emptyArray(),
-    private val description: String = "",
+    private val description: String = "No description",
 ) : LiteralArg(name, alias) {
 
     /**
@@ -30,7 +30,7 @@ open class CommandBuilder<E : ExecuteEvent>(
      */
     @CommandBuilder
     protected fun AbstractArg<*>.execute(
-        description: String = "",
+        description: String = "No description",
         block: ExecuteBlock<E>
     ) {
         val arg = FinalArg(description, block)
