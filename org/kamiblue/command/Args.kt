@@ -93,20 +93,30 @@ class FinalArg<E : ExecuteEvent>(
             && !(argsIn.size > argTree.size && lastArgType is GreedyStringArg)
         ) return false
 
-        var success = true
+        return countArgs(argsIn) == argTree.size
+    }
+
+    /**
+     * Count matched arguments in [argsIn]
+     *
+     * @return Number of matched arguments
+     */
+    suspend fun countArgs(argsIn: Array<String>): Int {
+        var matched = 0
 
         for ((index, argType) in argTree.withIndex()) {
-            if (argType is GreedyStringArg) {
-                success = argType.checkType(argsIn.slice(index until argsIn.size).joinToString(" "))
+            val success = if (argType is GreedyStringArg) {
+                matched++
                 break
             } else {
-                success = argType.checkType(argsIn.getOrNull(index))
+                argType.checkType(argsIn.getOrNull(index))
             }
 
-            if (!success) break
+            if (success) matched++
+            else break
         }
 
-        return success
+        return matched
     }
 
     /**
