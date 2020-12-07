@@ -132,7 +132,8 @@ class FinalArg<E : ExecuteEvent>(
     }
 
     fun printArgHelp(): String {
-        return argTree.subList(1, argTree.size).joinToString(" ")
+        return (argTree.first().name +
+            argTree.subList(1, argTree.size).joinToString(" ", " ")).trimEnd()
     }
 
 }

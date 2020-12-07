@@ -43,8 +43,8 @@ class Command<E : ExecuteEvent> internal constructor(
             val description = it.toString()
 
             if (argHelp.isBlank()) argHelp = "<No Argument>"
-            if (description.isNotBlank()) argHelp += "\n    $it"
-            (argHelp)
+            if (description.isNotBlank()) argHelp += "\n$it"
+            argHelp
         }
     }
 
