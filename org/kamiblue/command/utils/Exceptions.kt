@@ -8,8 +8,8 @@ import org.kamiblue.command.Command
  *
  * @see AbstractCommandManager.getCommand
  */
-class CommandNotFoundException(string: String?) :
-    Exception("No command found for: $string.")
+class CommandNotFoundException(val command: String?) :
+    Exception("Command not found: '$command'.")
 
 /**
  * Exception throws when no subcommand is found for a [Command]
