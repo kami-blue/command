@@ -7,19 +7,16 @@ package org.kamiblue.command
  * @param args Parsed arguments
  */
 open class ExecuteEvent(
-    val commandManager: AbstractCommandManager<*>,
-    val args: Array<String>
-) {
+    override val commandManager: AbstractCommandManager<*>,
+    override val args: Array<String>
+) : IExecuteEvent {
 
     /**
      * Mapping [ArgIdentifier] to their converted arguments
      */
     private val mappedArgs = HashMap<ArgIdentifier<*>, Any>()
 
-    /**
-     * Maps argument for the [argTree]
-     */
-    suspend fun mapArgs(argTree: List<AbstractArg<*>>) {
+    override suspend fun mapArgs(argTree: List<AbstractArg<*>>) {
         for ((index, arg) in argTree.withIndex()) {
             if (arg is GreedyStringArg) {
                 arg.convertToType(args.slice(index until args.size).joinToString(" "))?.let {
@@ -34,13 +31,8 @@ open class ExecuteEvent(
         }
     }
 
-    /**
-     * Gets mapped value for an [ArgIdentifier]
-     *
-     * @throws NullPointerException If this [ArgIdentifier] isn't mapped
-     */
     @Suppress("UNCHECKED_CAST")
-    val <T : Any> ArgIdentifier<T>.value: T
+    override val <T : Any> ArgIdentifier<T>.value: T
         get() = mappedArgs[this] as T
 
 }

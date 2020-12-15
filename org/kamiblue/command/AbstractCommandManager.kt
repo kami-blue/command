@@ -6,9 +6,9 @@ import org.kamiblue.commons.collections.AliasSet
 /**
  * Manager for [Command] registration and execution
  *
- * @param E Type of [ExecuteEvent], can be itself or its subtype
+ * @param E Type of [IExecuteEvent], can be itself or its subtype
  */
-abstract class AbstractCommandManager<E : ExecuteEvent> {
+abstract class AbstractCommandManager<E : IExecuteEvent> {
 
     /**
      * Registered [Command] for this [AbstractCommandManager]

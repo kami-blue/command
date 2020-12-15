@@ -1,13 +1,13 @@
 package org.kamiblue.command.utils
 
-import org.kamiblue.command.ExecuteEvent
+import org.kamiblue.command.IExecuteEvent
 
 /**
- * Interface for class that can be invoked with an [ExecuteEvent]
+ * Interface for class that can be invoked with an [IExecuteEvent]
  *
- * @param E Type of [ExecuteEvent], can be itself or its subtype
+ * @param E Type of [IExecuteEvent], can be itself or its subtype
  */
-interface Invokable<E : ExecuteEvent> {
+interface Invokable<E : IExecuteEvent> {
 
     /**
      * Invoke this with [event]

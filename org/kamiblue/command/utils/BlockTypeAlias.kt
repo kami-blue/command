@@ -1,14 +1,11 @@
 package org.kamiblue.command.utils
 
-import org.kamiblue.command.AbstractArg
-import org.kamiblue.command.ArgIdentifier
-import org.kamiblue.command.ExecuteEvent
-import org.kamiblue.command.CommandBuilder
+import org.kamiblue.command.*
 
 /**
  * Type alias for a block used for execution of a argument combination
  *
- * @param E Type of [ExecuteEvent], can be itself or its subtype
+ * @param E Type of [IExecuteEvent], can be itself or its subtype
  *
  * @see CommandBuilder.execute
  */

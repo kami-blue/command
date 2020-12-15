@@ -67,7 +67,7 @@ abstract class AbstractArg<T : Any> : Nameable {
  * @param description Description for this argument combination
  * @param block [ExecuteBlock] to run on invoking
  */
-class FinalArg<E : ExecuteEvent>(
+class FinalArg<E : IExecuteEvent>(
     private val description: String,
     private val block: ExecuteBlock<E>
 ) : AbstractArg<Unit>(), Invokable<E> {

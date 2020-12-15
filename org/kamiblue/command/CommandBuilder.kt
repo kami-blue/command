@@ -7,11 +7,11 @@ import org.kamiblue.command.utils.ExecuteBlock
  * Builder for [Command], extend this or subtype of this
  * to build a command. Or extend this to add more arg types.
  *
- * @param E Type of [ExecuteEvent], can be itself or its subtype
+ * @param E Type of [IExecuteEvent], can be itself or its subtype
  * @param name (Optional) Name for the [Command]
  * @param description (Optional) Description for the [Command]
  */
-open class CommandBuilder<E : ExecuteEvent>(
+open class CommandBuilder<E : IExecuteEvent>(
     name: String,
     alias: Array<out String> = emptyArray(),
     private val description: String = "No description",

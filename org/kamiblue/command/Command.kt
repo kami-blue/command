@@ -9,13 +9,13 @@ import org.kamiblue.commons.interfaces.Nameable
  * Command built from [CommandBuilder], this shouldn't be used
  * directly for instance creation in implementation.
  *
- * @param E Type of [ExecuteEvent], can be itself or its subtype
+ * @param E Type of [IExecuteEvent], can be itself or its subtype
  * @param name Name of this [Command], used to call the [Command] or identifying
  * @param alias Alias of [Command], functions the same as [name]
  * @param description Description of this [Command]
  * @param finalArgs Possible argument combinations of this [Command]
  */
-class Command<E : ExecuteEvent> internal constructor(
+class Command<E : IExecuteEvent> internal constructor(
     override val name: String,
     override val alias: Array<out String>,
     val description: String,
