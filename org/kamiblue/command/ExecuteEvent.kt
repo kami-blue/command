@@ -1,10 +1,7 @@
 package org.kamiblue.command
 
 /**
- * Event being used for executing the [Command]
- *
- * @param commandManager Reference to the [AbstractCommandManager]
- * @param args Parsed arguments
+ * Default implementation of [IExecuteEvent]
  */
 open class ExecuteEvent(
     override val commandManager: AbstractCommandManager<*>,

@@ -1,9 +1,15 @@
 package org.kamiblue.command
 
+/**
+ * Event being used for executing the [Command]
+ */
 interface IExecuteEvent {
 
     val commandManager: AbstractCommandManager<*>
 
+    /**
+     * Parsed arguments
+     */
     val args: Array<String>
 
     /**
