@@ -23,6 +23,11 @@ class Command<E : IExecuteEvent> internal constructor(
 ) : Nameable, Alias, Invokable<E> {
 
     /**
+     * [name] + [alias]
+     */
+    val allNames = arrayOf(name, *alias)
+
+    /**
      * Invoke this [Command] with [event].
      *
      * @param event Event being used for invoking, must match the type [E]
