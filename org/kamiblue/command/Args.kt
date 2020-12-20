@@ -28,6 +28,11 @@ abstract class AbstractArg<T : Any> : Nameable {
     val identifier by lazy { ArgIdentifier<T>(name) }
 
     /**
+     * Get a immutable copy of [argTree]
+     */
+    fun getArgTree() = argTree.toList()
+
+    /**
      * Check if [string] matches with this argument
      */
     internal suspend fun checkType(string: String?) = convertToType(string) != null
@@ -251,7 +256,7 @@ class DoubleArg(
 open class LiteralArg(
     override val name: String,
     override val alias: Array<out String>,
-) : AbstractArg<String>(), Alias {
+) : AbstractArg<String>(), Alias, AutoComplete by StaticPrefixMatch(listOf(name, *alias)) {
 
     override suspend fun convertToType(string: String?): String? {
         return if (string.equals(name, true) || alias.any { string.equals(it, false) }) {
