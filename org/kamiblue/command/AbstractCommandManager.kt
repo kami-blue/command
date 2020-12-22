@@ -27,7 +27,7 @@ abstract class AbstractCommandManager<E : IExecuteEvent> {
      *
      * @return The built [Command]
      */
-    fun register(builder: CommandBuilder<E>): Command<E> {
+    open fun register(builder: CommandBuilder<E>): Command<E> {
         return synchronized(lockObject) {
             builder.buildCommand().also {
                 commands.add(it)
@@ -41,7 +41,7 @@ abstract class AbstractCommandManager<E : IExecuteEvent> {
      *
      * @return The unregistered [Command]
      */
-    fun unregister(builder: CommandBuilder<E>): Command<E>? {
+    open fun unregister(builder: CommandBuilder<E>): Command<E>? {
         return synchronized(lockObject) {
             builderCommandMap.remove(builder)?.also {
                 commands.remove(it)

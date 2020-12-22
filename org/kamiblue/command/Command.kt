@@ -54,4 +54,20 @@ class Command<E : IExecuteEvent> internal constructor(
         }
     }
 
+    override fun equals(other: Any?) = this === other
+        || (other is Command<*>
+        && name == other.name
+        && alias.contentEquals(other.alias)
+        && description == other.description
+        && finalArgs.contentEquals(other.finalArgs)
+        && builder == other.builder)
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + alias.contentHashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + finalArgs.contentHashCode()
+        return 31 * result + builder.hashCode()
+    }
+
 }
