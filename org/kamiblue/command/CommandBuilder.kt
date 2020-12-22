@@ -195,7 +195,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * Built this into a [Command]
      */
     internal fun buildCommand(): Command<E> {
-        return Command(name, alias, description, finalArgs.toTypedArray())
+        return Command(name, alias, description, finalArgs.toTypedArray(), this)
     }
 
 }

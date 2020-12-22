@@ -20,6 +20,7 @@ class Command<E : IExecuteEvent> internal constructor(
     override val alias: Array<out String>,
     val description: String,
     val finalArgs: Array<FinalArg<E>>,
+    val builder: CommandBuilder<E>
 ) : Nameable, Alias, Invokable<E> {
 
     /**

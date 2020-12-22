@@ -16,11 +16,11 @@ abstract class AbstractCommandManager<E : IExecuteEvent> {
     private val commands = AliasSet<Command<E>>()
 
     /**
-     * Build [CommandBuilder] in [builders] and register them to this [AbstractCommandManager]
+     * Registered [CommandBuilder] to their built [Command]
      */
-    fun registerAll(builders: Iterable<CommandBuilder<E>>) {
-        builders.forEach { register(it) }
-    }
+    private val builderCommandMap = HashMap<CommandBuilder<E>, Command<E>>()
+
+    private val lockObject = Any()
 
     /**
      * Build [builder] and register it to this [AbstractCommandManager]
@@ -28,8 +28,24 @@ abstract class AbstractCommandManager<E : IExecuteEvent> {
      * @return The built [Command]
      */
     fun register(builder: CommandBuilder<E>): Command<E> {
-        return builder.buildCommand().also {
-            commands.add(it)
+        return synchronized(lockObject) {
+            builder.buildCommand().also {
+                commands.add(it)
+                builderCommandMap[builder] = it
+            }
+        }
+    }
+
+    /**
+     * Unregister the [Command] built from this [CommandBuilder]
+     *
+     * @return The unregistered [Command]
+     */
+    fun unregister(builder: CommandBuilder<E>): Command<E>? {
+        return synchronized(lockObject) {
+            builderCommandMap.remove(builder)?.also {
+                commands.remove(it)
+            }
         }
     }
 
