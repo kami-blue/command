@@ -20,7 +20,7 @@ abstract class AbstractCommandManager<E : IExecuteEvent> {
      */
     private val builderCommandMap = HashMap<CommandBuilder<E>, Command<E>>()
 
-    private val lockObject = Any()
+    protected val lockObject = Any()
 
     /**
      * Build [builder] and register it to this [AbstractCommandManager]
