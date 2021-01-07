@@ -35,7 +35,7 @@ abstract class AbstractArg<T : Any> : Nameable {
     /**
      * Check if [string] matches with this argument
      */
-    internal suspend fun checkType(string: String?) = convertToType(string) != null
+    internal open suspend fun checkType(string: String?) = convertToType(string) != null
 
     /**
      * Convert [string] to the the argument type [T]
