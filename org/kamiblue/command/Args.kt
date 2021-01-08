@@ -3,6 +3,7 @@ package org.kamiblue.command
 import org.kamiblue.command.utils.ExecuteBlock
 import org.kamiblue.command.utils.Invokable
 import org.kamiblue.commons.interfaces.Alias
+import org.kamiblue.commons.interfaces.DisplayEnum
 import org.kamiblue.commons.interfaces.Nameable
 
 /**
@@ -176,7 +177,7 @@ class BooleanArg(
 class EnumArg<E : Enum<E>>(
     override val name: String,
     enumClass: Class<E>
-) : AbstractArg<E>() {
+) : AbstractArg<E>(), AutoComplete by StaticPrefixMatch(getAllNames(enumClass)) {
 
     private val enumValues = enumClass.enumConstants
 
@@ -184,6 +185,14 @@ class EnumArg<E : Enum<E>>(
         return enumValues.find { it.name.equals(string, true) }
     }
 
+    private companion object {
+        private fun <E : Enum<E>> getAllNames(clazz: Class<E>) = ArrayList<String>().apply {
+            for (enum in clazz.enumConstants) {
+                if (enum is DisplayEnum) add(enum.displayName)
+                add(enum.name)
+            }
+        }
+    }
 }
 
 /**
