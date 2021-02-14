@@ -28,6 +28,20 @@ open class CommandBuilder<E : IExecuteEvent>(
     /**
      * Appends a [FinalArg], adds it to [finalArgs]
      *
+     * @param options (Optional) [ExecuteOption] used to check before invoking [block]
+     * @param block [ExecuteBlock] to run on invoking
+     */
+    @CommandBuilder
+    protected fun AbstractArg<*>.execute(
+        vararg options: ExecuteOption<E>,
+        block: ExecuteBlock<E>
+    ) {
+        execute("No description", *options, block = block)
+    }
+
+    /**
+     * Appends a [FinalArg], adds it to [finalArgs]
+     *
      * @param description (Optional) Description for this argument combination
      * @param options (Optional) [ExecuteOption] used to check before invoking [block]
      * @param block [ExecuteBlock] to run on invoking
