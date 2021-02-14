@@ -26,14 +26,16 @@ open class CommandBuilder<E : IExecuteEvent>(
      * Appends a [FinalArg], adds it to [finalArgs]
      *
      * @param description (Optional) Description for this argument combination
+     * @param options (Optional) [ExecuteOption] used to check before invoking [block]
      * @param block [ExecuteBlock] to run on invoking
      */
     @CommandBuilder
     protected fun AbstractArg<*>.execute(
         description: String = "No description",
+        vararg options: ExecuteOption<E>,
         block: ExecuteBlock<E>
     ) {
-        val arg = FinalArg(description, block)
+        val arg = FinalArg(description, options, block)
         this.append(arg)
         finalArgs.add(arg)
     }

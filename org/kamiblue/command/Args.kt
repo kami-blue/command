@@ -70,11 +70,13 @@ abstract class AbstractArg<T : Any> : Nameable {
 /**
  * An argument that take no input and has a [ExecuteBlock]
  *
- * @param description Description for this argument combination
+ * @param description (Optional) Description for this argument combination
+ * @param options (Optional) [ExecuteOption] used to check before invoking [block]
  * @param block [ExecuteBlock] to run on invoking
  */
 class FinalArg<E : IExecuteEvent>(
     private val description: String,
+    private val options: Array<out ExecuteOption<E>>,
     private val block: ExecuteBlock<E>
 ) : AbstractArg<Unit>(), Invokable<E> {
 
@@ -126,10 +128,18 @@ class FinalArg<E : IExecuteEvent>(
     }
 
     /**
-     * Maps arguments in the [event] and invoke the [block]
+     * Maps arguments in the [event] and invoke the [block] if passed all the [options]
      */
     override suspend fun invoke(event: E) {
         event.mapArgs(argTree)
+
+        for (option in options) {
+            if (!option.canExecute(event)) {
+                option.onFailed(event)
+                return
+            }
+        }
+
         block.invoke(event)
     }
 
