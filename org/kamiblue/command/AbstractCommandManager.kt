@@ -1,5 +1,6 @@
 package org.kamiblue.command
 
+import org.kamiblue.command.execute.IExecuteEvent
 import org.kamiblue.command.utils.CommandNotFoundException
 import org.kamiblue.commons.collections.AliasSet
 

@@ -1,4 +1,6 @@
-package org.kamiblue.command
+package org.kamiblue.command.execute
+
+import org.kamiblue.command.args.FinalArg
 
 /**
  * Used to check if a [FinalArg] can be invoke with an [IExecuteEvent].
@@ -27,6 +29,6 @@ class AnyOption<E : IExecuteEvent>(private vararg val options: ExecuteOption<E>)
     }
 
     override suspend fun onFailed(event: E) {
-        options.first().onFailed(event)
+        options.last().onFailed(event)
     }
 }

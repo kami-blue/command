@@ -1,4 +1,9 @@
-package org.kamiblue.command
+package org.kamiblue.command.execute
+
+import org.kamiblue.command.AbstractCommandManager
+import org.kamiblue.command.args.AbstractArg
+import org.kamiblue.command.args.ArgIdentifier
+import org.kamiblue.command.args.GreedyStringArg
 
 /**
  * Default implementation of [IExecuteEvent]

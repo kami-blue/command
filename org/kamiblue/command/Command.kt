@@ -1,5 +1,7 @@
 package org.kamiblue.command
 
+import org.kamiblue.command.args.FinalArg
+import org.kamiblue.command.execute.IExecuteEvent
 import org.kamiblue.command.utils.Invokable
 import org.kamiblue.command.utils.SubCommandNotFoundException
 import org.kamiblue.commons.interfaces.Alias

@@ -1,6 +1,6 @@
 package org.kamiblue.command.utils
 
-import org.kamiblue.command.IExecuteEvent
+import org.kamiblue.command.execute.IExecuteEvent
 
 /**
  * Interface for class that can be invoked with an [IExecuteEvent]

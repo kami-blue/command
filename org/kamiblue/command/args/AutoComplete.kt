@@ -1,4 +1,4 @@
-package org.kamiblue.command
+package org.kamiblue.command.args
 
 interface AutoComplete {
     fun completeForInput(string: String): String?

@@ -1,6 +1,9 @@
 package org.kamiblue.command.utils
 
-import org.kamiblue.command.*
+import org.kamiblue.command.CommandBuilder
+import org.kamiblue.command.args.AbstractArg
+import org.kamiblue.command.args.ArgIdentifier
+import org.kamiblue.command.execute.IExecuteEvent
 
 /**
  * Type alias for a block used for execution of a argument combination
