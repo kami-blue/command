@@ -4,23 +4,23 @@ interface AutoComplete {
     fun completeForInput(string: String): String?
 }
 
-open class DynamicPrefixMatch(
+class DynamicPrefixMatch(
     private val matchList: () -> Collection<String>?
 ) : AutoComplete {
-
-    final override fun completeForInput(string: String): String? {
+    override fun completeForInput(string: String): String? {
         if (string.isBlank()) return null
         val list = matchList() ?: return null
 
-        val matched = list.stream()
-            .filter { it.startsWith(string, true) }
-            .findFirst()
-
-        return matched.orElse(null)
+        return list.find { it.startsWith(string, true) }
     }
-
 }
 
 class StaticPrefixMatch(
     private val matchList: Collection<String>
-) : DynamicPrefixMatch({ matchList })
+) : AutoComplete {
+    override fun completeForInput(string: String): String? {
+        if (string.isBlank()) return null
+
+        return matchList.find { it.startsWith(string, true) }
+    }
+}
