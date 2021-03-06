@@ -64,7 +64,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun AbstractArg<*>.boolean(
+    protected inline fun AbstractArg<*>.boolean(
         name: String,
         block: BuilderBlock<Boolean>
     ) {
@@ -81,7 +81,7 @@ open class CommandBuilder<E : IExecuteEvent>(
     @CommandBuilder
     protected inline fun <reified E : Enum<E>> AbstractArg<*>.enum(
         name: String,
-        noinline block: BuilderBlock<E>
+        block: BuilderBlock<E>
     ) {
         arg(EnumArg(name, E::class.java), block)
     }
@@ -93,7 +93,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun AbstractArg<*>.long(
+    protected inline fun AbstractArg<*>.long(
         name: String,
         block: BuilderBlock<Long>
     ) {
@@ -107,7 +107,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun AbstractArg<*>.int(
+    protected inline fun AbstractArg<*>.int(
         name: String,
         block: BuilderBlock<Int>
     ) {
@@ -121,7 +121,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun AbstractArg<*>.float(
+    protected inline fun AbstractArg<*>.float(
         name: String,
         block: BuilderBlock<Float>
     ) {
@@ -135,7 +135,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun AbstractArg<*>.double(
+    protected inline fun AbstractArg<*>.double(
         name: String,
         block: BuilderBlock<Double>
     ) {
@@ -150,7 +150,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun AbstractArg<*>.literal(
+    protected inline fun AbstractArg<*>.literal(
         name: String,
         vararg alias: String,
         block: LiteralArg.() -> Unit
@@ -167,7 +167,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun AbstractArg<*>.string(
+    protected inline fun AbstractArg<*>.string(
         name: String,
         block: BuilderBlock<String>
     ) {
@@ -181,7 +181,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun AbstractArg<*>.greedy(
+    protected inline fun AbstractArg<*>.greedy(
         name: String,
         block: BuilderBlock<String>
     ) {
@@ -196,7 +196,7 @@ open class CommandBuilder<E : IExecuteEvent>(
      * @param block [BuilderBlock] to appends more arguments
      */
     @CommandBuilder
-    protected fun <T : Any> AbstractArg<*>.arg(
+    protected inline fun <T : Any> AbstractArg<*>.arg(
         arg: AbstractArg<T>,
         block: BuilderBlock<T>
     ) {
